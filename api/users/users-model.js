@@ -21,9 +21,17 @@ function findBy(filter) {
 }
 
 async function add(user) {
-  const [id] = await db("users").insert(user)
-  return findById(id)
+  const [insertedUser] = await db("users").insert(user).returning("id");
+  const id = typeof insertedUser === 'object' ? insertedUser.id : insertedUser;
+
+  if (!id) {
+    throw new Error("User insertion failed");
+  }
+
+  return findById(id);
 }
+
+
 
 function findById(id) {
   return db("users as u")
