@@ -12,7 +12,6 @@ const restricted = (req, res, next) => {
         next({ status: 401, message: `Your token sucks: ${err.message}` })
       } else {
         req.decodedJwt = decoded
-        console.log('decoded: ', decoded)
         next()
       }
     })

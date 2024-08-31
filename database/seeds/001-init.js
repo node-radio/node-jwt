@@ -1,15 +1,48 @@
-exports.seed = async function (knex) {
-  // 000-cleanup.js already cleaned out all tables
+const bcrypt = require('bcryptjs')
+const { BCRYPT_ROUNDS } = require('../db-config')
 
-  await knex("roles")
-    .insert([
-      { name: "admin" },
-      { name: "user" },
-    ])
-  await knex("users")
-    .insert({
+exports.seed = async function (knex) {
+  
+  await knex('roles').insert([
+    { role_name: 'admin' },
+    { role_name: 'employee' },
+    { role_name: 'client' },        
+  ])
+  await knex('users').insert([
+    {
       username: 'admin',
-      password: '$2a$08$CjOzAqkUXePlNyZCG6TKuubIY.MpjKqOdrV/W3178ah483kyEbeSe', // plain text password is 1234
-      role: 1,
-    })
+      password: bcrypt.hashSync('password', BCRYPT_ROUNDS), // password "password"
+      role_id: 1,
+    },
+    {
+      username: 'wei',
+      password: bcrypt.hashSync('password', BCRYPT_ROUNDS), // password "password"
+      role_id: 1,
+    },
+    {
+      username: 'tom',
+      password: bcrypt.hashSync('1234', BCRYPT_ROUNDS), // password "1234"
+      role_id: 2,
+    },
+    {
+      username: 'jerry',
+      password: bcrypt.hashSync('1234', BCRYPT_ROUNDS), // password "1234"
+      role_id: 2,
+    },
+    {
+      username: 'odie',
+      password: bcrypt.hashSync('1234', BCRYPT_ROUNDS), // password "1234"
+      role_id: 3,
+    },    
+    {
+      username: 'garfield',
+      password: bcrypt.hashSync('1234', BCRYPT_ROUNDS), // password "1234"
+      role_id: 3,
+    },
+    {
+      username: 'sarah',
+      password: bcrypt.hashSync('1234', BCRYPT_ROUNDS), // password "1234"
+      role_id: 3,
+    },
+  ])
 }

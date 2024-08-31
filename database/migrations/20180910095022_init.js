@@ -1,19 +1,19 @@
 exports.up = function (knex) {
   return knex.schema
-    .createTable("roles", tbl => {
-      tbl.increments()
-      tbl.string("name", 128).notNullable()
+    .createTable('roles', roles => {
+      roles.increments('role_id')
+      roles.string('role_name', 128).notNullable().unique()
     })
-    .createTable("users", tbl => {
-      tbl.increments()
-      tbl.string("username", 128).notNullable().unique()
-      tbl.string("password", 256).notNullable()
-      tbl.integer("role")
-        .unsigned()
-        .references("roles.id")
+    .createTable('users', users => {
+      users.increments('user_id')
+      users.string('username', 128).notNullable().unique()
+      users.string('password', 256).notNullable()
+      users.integer('role_id')
+        .notNullable()
+        .references('role_id')
+        .inTable('roles')
         .onDelete("RESTRICT")
         .onUpdate("CASCADE")
-        .defaultTo(2)
     })
 }
 
